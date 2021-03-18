@@ -251,3 +251,12 @@ class ALU:
 
         #if calculation is zero set zero flag
         self.zero=is_zero(self.last_result)
+
+# b1 = mem.mem_byte()
+# b1.set_v("00000100")
+
+# b2 = mem.mem_byte()
+# b2.set_v("00001100")
+
+# result = byte_ADDer(b1, b2)
+# print(result[0].output())

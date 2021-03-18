@@ -30,5 +30,3 @@ Last 4 bits denote register A and B:
     11 = Reg3
 
 
-ALU Instructions: 
-F
