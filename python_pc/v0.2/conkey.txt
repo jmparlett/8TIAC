@@ -1,0 +1,34 @@
+___________Instructions / assembly language______________
+all Instructions are 8 bit codes. Generally the first 4 bits denote the instruction
+and the last 4 denote the target registers
+
+The first bit denotes an ALU or Non ALU instruction
+    MSB = 1 denotes ALU:
+        next 3 bits are the opcodes
+        1000 rarb = ADD RA,RB (Can be read as "Add the contents of regA to regB. This follows for all instructions)
+        1001 rarb = SHL RA,RB
+        1010 rarb = SHR RA,RB
+        1011 rarb = NOT RA,RB
+        1100 rarb = AND RA,RB
+        1101 rarb = OR  RA,RB
+        1110 rarb = XOR RA,RB
+        1111 rarb = CMP RA,RB
+    MSB = 0 denotes non ALU:
+        0000 rarb = LD RA,RB      (Load reg B from address in reg A)
+        0001 rarb = ST RA,RB      (Store contents of register B to address in Register A)
+        0010 00rb = DATA RB, addr (Load these 8 these 8 bits into register B)
+        0011 00rb = JMPR          (jump to mem address in regB)
+        0100 0000 = JMP RB        (jump to mem address in next byte)
+        0100 0000 = JMP           (jump to mem address in regB)
+        0101 caez = JCAEZ Addr    (jump if tested flag is on)
+        0110 0000 = CLF           (Clear flags)
+
+Last 4 bits denote register A and B:
+    00 = Reg0
+    01 = Reg1
+    10 = Reg2
+    11 = Reg3
+
+
+ALU Instructions: 
+F
