@@ -1,20 +1,18 @@
+#add parent dir contain pypc files
+import os
+parent_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.sys.path.append(parent_path)
+
 import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 import pyPcGui
-import os
-
-path_current = os.path.abspath(__file__)
-print(path_current)
-current_dir = os.path.dirname(path_current)
-desired_dir = os.path.dirname(current_dir)
-print(desired_dir)
-
-#add parent dir contain pypc files
-os.sys.path.append(desired_dir)
-
 from pyPc import clu as pythonPc
+from itertools import chain
+
+
+
 
 
 
@@ -38,10 +36,13 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
             headers=['Set Bit', 'Enable Bit', 'Value']
             self.memoryTable.setHorizontalHeaderLabels(headers)
 
+            #generate lists for table columns.
+            values = list(chain.from_iterable([[byte.output() for byte in register_row] for register_row in pythonPc.ram.m])) #column 3 byte values
+            print(t, len(t))
             #Define lists of memory data to be entered into table
             memData = [['1','2','3','4'],
                        ['1','2','1','3'],
-                       ['1','1','2','1']]
+                       t]
             for c, i in enumerate(memData):
                 print(c)
                 for c2, i2 in enumerate(i):

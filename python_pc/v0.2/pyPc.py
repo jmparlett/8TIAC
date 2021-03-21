@@ -47,36 +47,36 @@ clu=cu.control_unit(ram,bus1,register_0,register_1,register_2,register_3,acc,tmp
 clu=cu.control_unit(ram,bus1,register_0,register_1,register_2,register_3,acc,tmp,alu, ir, iar, flags_register)
 
 
+if __name__ == "__main__":
+    #test code
+    #DATA R0        00100000  
+    # bytes to load 00000100
+    # DATA R1       00100001
+    # bytes to load 00001100
+    # Add R1,R0     10000100
 
-#test code
-#DATA R0        00100000  
-# bytes to load 00000100
-# DATA R1       00100001
-# bytes to load 00001100
-# Add R1,R0     10000100
+    instructions = ['00100000','00000100','00100001','00001100', "10000100"]
 
-# instructions = ['00100000','00000100','00100001','00001100', "10000100"]
+    ram.s=1
+    clu.ram.mar.set_v("00000000")
+    clu.ram.write(instructions[0])
+    clu.ram.mar.set_v("00000001")
+    clu.ram.write(instructions[1])
+    clu.ram.mar.set_v("00000010")
+    clu.ram.write(instructions[2])
+    clu.ram.mar.set_v("00000011")
+    clu.ram.write(instructions[3])
+    clu.ram.mar.set_v("00000100")
+    clu.ram.write(instructions[4])
+    clu.ram.mar.set_v("00000000")
+    ram.s=0
 
-# ram.s=1
-# clu.ram.mar.set_v("00000000")
-# clu.ram.write(instructions[0])
-# clu.ram.mar.set_v("00000001")
-# clu.ram.write(instructions[1])
-# clu.ram.mar.set_v("00000010")
-# clu.ram.write(instructions[2])
-# clu.ram.mar.set_v("00000011")
-# clu.ram.write(instructions[3])
-# clu.ram.mar.set_v("00000100")
-# clu.ram.write(instructions[4])
-# clu.ram.mar.set_v("00000000")
-# ram.s=0
-
-# # for i in range(5):
-# #     print(clu.ram.m[0][i].output())
+    # for i in range(5):
+    #     print(clu.ram.m[0][i].output())
 
 
-# for i in range(21):
-#     clu.step()
+    for i in range(21):
+        clu.step()
 
-# register_0.e=1
-# print(register_0.output())
+    register_0.e=1
+    print(register_0.output())
