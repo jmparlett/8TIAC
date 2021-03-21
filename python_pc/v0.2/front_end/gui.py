@@ -22,7 +22,6 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
             self.setupUi(self)
             # self.btnBrowse.clicked.connect(self.browse_folder)
 
-
         def drawMar(self):
             self.marContents.setText(pythonPc.mar.m.output())
             self.marContents.setAlignment(Qt.AlignCenter)
@@ -37,22 +36,26 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
             self.memoryTable.setHorizontalHeaderLabels(headers)
 
             #generate lists for table columns.
-            values = list(chain.from_iterable([[byte.output() for byte in register_row] for register_row in pythonPc.ram.m])) #column 3 byte values
-            print(t, len(t))
+            setBits= list(chain.from_iterable([[str(register.s) for register in register_row] for register_row in pythonPc.ram.m]))     #column 1
+            enableBits= list(chain.from_iterable([[str(register.e) for register in register_row] for register_row in pythonPc.ram.m]))  #column 2
+            byteValues = list(chain.from_iterable([[register.m.output() for register in register_row] for register_row in pythonPc.ram.m])) #column 3
             #Define lists of memory data to be entered into table
-            memData = [['1','2','3','4'],
-                       ['1','2','1','3'],
-                       t]
+            memData = [setBits, enableBits, byteValues]
             for c, i in enumerate(memData):
                 print(c)
                 for c2, i2 in enumerate(i):
                     self.memoryTable.setItem(c2,c, QtWidgets.QTableWidgetItem(i2))
 
+        def draw(self):
+            self.drawMar()
+            self.drawMemory()
+            #highlight cell MAR is currently pointing to
+            self.memoryTable.item(int(pythonPc.mar.m.output(), 2), 2).setBackground(QColor(100,100,150))
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
     window = PyPcGui()
-    window.drawMemory()
+    window.draw()
     window.show()
     app.exec_()
 

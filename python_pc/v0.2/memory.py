@@ -182,22 +182,31 @@ class RAM256Byte:
     def __init__(self):
         self.m=[]
         for i in range(16):
-            byterow=[]
+            register_row=[]
             for i2 in range(16):
-                byterow.append(mem_byte())
-            self.m.append(byterow)
+                register_row.append(register())
+            self.m.append(register_row)
         self.mar=MAR256Byte()
         self.s=0
         self.e=0
 
-    #Write to the byte specified by MAR the input should be a string of bits '11001100' such as byte.output()
+    #Write to the register specified by MAR the input should be a string of bits '11001100' such as byte.output()
     def write(self,info):
-        addy=self.mar.output()
+        address=self.mar.output()
         if self.s==1:
-            self.m[addy[0]][addy[1]].set_v(info)
+            targetMemRegister = self.m[address[0]][address[1]]
+            targetMemRegister.s=1
+            targetMemRegister.set_v(info)
+            targetMemRegister.s=1
+            # self.m[addy[0]][addy[1]].set_v(info)
 
     #Read from location specified by MAR output will be the string of bits at that location '10100011'
     def read(self):
         if self.e==1:
-            addy=self.mar.output()
-            return self.m[addy[0]][addy[1]].output()
+            address=self.mar.output()
+            targetMemRegister = self.m[address[0]][address[1]]
+            targetMemRegister.e=1
+            out=targetMemRegister.output()
+            targetMemRegister.e=0
+            return out
+            # return self.m[address[0]][address[1]].output()
