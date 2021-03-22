@@ -16,7 +16,7 @@ The first bit denotes an ALU or Non ALU instruction
     MSB = 0 denotes non ALU:
         0000 rarb = LD RA,RB      (Load reg B from address in reg A)
         0001 rarb = ST RA,RB      (Store contents of register B to address in Register A)
-        0010 00rb = DATA RB, addr (Load these 8 these 8 bits into register B)
+        0010 00rb = DATA RB, addr (Load these 8 bits into register B)
         0011 00rb = JMPR          (jump to mem address in regB)
         0100 0000 = JMP RB        (jump to mem address in next byte)
         0100 0000 = JMP           (jump to mem address in regB)
@@ -30,3 +30,11 @@ Last 4 bits denote register A and B:
     11 = Reg3
 
 
+Bootstrap program
+RA = content
+RB = index #having an initial value of 10
+
+store 1 to index location
+increment index by 1
+change contents of RA to contents of Reg3
+ST RA,RB

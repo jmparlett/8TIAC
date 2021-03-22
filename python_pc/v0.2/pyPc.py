@@ -1,10 +1,24 @@
-#pypc.py
 #made by: Jonathan Parlett
-#Purpose: holds main objects for pc
+#Purpose: holds main objects and helper functions for the 8TIAC
+#Helper functions are things that not necessarily part of the 8 bit computer implementation
+#and include helpful functions such as reading a list of instructions into memory
+
 import memory as mem
 import ALU as alu_mod
 import control_unit as cu
+#Helper functions begin
+def readProgramToMemory(instructionList):
+    pass
 
+def stepSingleInstruction():
+    pass
+
+def stepCycle():
+    pass
+#Helper functions end
+
+
+#build computer
 #CPU Registers
 register_0=mem.register()
 register_1=mem.register()

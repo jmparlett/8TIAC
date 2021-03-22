@@ -26,6 +26,7 @@ class control_unit:
         self.ir=ir
         self.iar=iar
         self.flags_reg=flags_reg
+        self.stdIn=[]
 
         self.current_step=0
     
@@ -152,6 +153,12 @@ class control_unit:
             self.current_step=0
         else:
             if self.current_step==1:
+            #if there is input on std in then input to register 3
+                if len(self.stdIn) > 0:
+                    self.r3.s=1
+                    self.r3.set_v(self.stdIn.pop(0))
+                    self.r3.s=0
+
             #set appropriate s and e bit values for components
                 self.mar.s=1
                 self.acc.s=1
