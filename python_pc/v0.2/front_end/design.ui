@@ -81,6 +81,19 @@
         <string>Read Program Into Memory</string>
        </property>
       </widget>
+      <widget class="QLabel" name="errorLabel">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>125</y>
+         <width>361</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </widget>
     </item>
     <item row="0" column="0" colspan="5">

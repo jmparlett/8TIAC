@@ -4,10 +4,11 @@ parent_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.sys.path.append(parent_path)
 
 import sys
+import pyPcGui
+import utilFunctions
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-import pyPcGui
 from pyPc import clu as pythonPc
 from itertools import chain
 
@@ -18,6 +19,7 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
         def __init__(self):
             super().__init__()
             self.setupUi(self)
+            self.readProgramToMemoryButton.clicked.connect(self.loadProgram)
             # self.btnBrowse.clicked.connect(self.browse_folder)
 
         def drawMar(self):
@@ -89,6 +91,13 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
             self.drawCLU()
             #highlight cell MAR is currently pointing to
             self.memoryTable.item(int(pythonPc.mar.m.output(), 2), 2).setBackground(QColor(100,100,150))
+
+        def loadProgram(self):
+            instructionList = self.programText.toPlainText().split('\n')
+            if utilFunctions.validateInstructionList(instructionList):
+                print(instructionList)
+            else:
+                self.errorLabel.setText("Error that is not valid input.\n Please enter 8 digit line seperated binary numbers only.")
 
 def main():
     app = QtWidgets.QApplication(sys.argv)

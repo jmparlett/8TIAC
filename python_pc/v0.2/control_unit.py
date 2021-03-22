@@ -153,11 +153,13 @@ class control_unit:
             self.current_step=0
         else:
             if self.current_step==1:
-            #if there is input on std in then input to register 3
-                if len(self.stdIn) > 0:
-                    self.r3.s=1
-                    self.r3.set_v(self.stdIn.pop(0))
-                    self.r3.s=0
+            #if there is input on std in and register 3 is empty then input stdin to register 3
+                self.r3.s=1
+                self.r3.e=1
+                if len(self.stdIn) > 0 and self.r3.output() == "00000000":
+                    self.r3.set_v(self.stdIn.pop(0))    
+                self.r3.s=0
+                self.r3.e=0
 
             #set appropriate s and e bit values for components
                 self.mar.s=1

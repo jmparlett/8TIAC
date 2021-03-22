@@ -29,12 +29,43 @@ Last 4 bits denote register A and B:
     10 = Reg2
     11 = Reg3
 
+Standard input (stdIn)
+stdIn is a list in the CLU. The first item in this list is removed and input to R3, if ,R3 is empty (all zeros).
+This allows you to handle input by reading from R3. Once input has been used you may zero R3 using XOR.
+This will allow you to handle the next input.
+
 
 Bootstrap program
-RA = content
-RB = index #having an initial value of 10
+R0 = index #having an initial value of 4
+R1 = 1     #after loading from first location in program
+R2 = 0     #will be used for comparison
+R3 = content
 
-store 1 to index location
-increment index by 1
-change contents of RA to contents of Reg3
-ST RA,RB
+CMP R3, R2      #if register 3 is still zero after being XOR'ed then there are no new instructions to be loaded
+JMP E           #Jump if equal
+Addr            #Jump address (Location 9)
+ST R3, R0       #By default stdIn is loaded to R3 this stores a 1 to mem location 9
+LD R2, R0       #The intent of this line is to load 1 into R2. For this to function the input on stdIn must be 00000001
+ADD R1, R0      #increment index by 1
+XOR R3,R3       #zero R3 to allow for next input from stdIn
+JMPR 00R1       #Jump to mem location 0
+#if loop is finished zero registers and jump to beginning of program
+XOR R0,R0
+XOR R1,R1
+JMP             #Jump to address stored in next byte of memory
+Addr            #Address of beginning of program (Location 13)
+
+
+
+BinaryCode (These Instructions will consume the first 12 addresses in memory)
+1111 1011
+0101        (need codes for flags)
+0000 1001
+0001 1100
+0000 1000
+1000 0100
+1110 1111
+0011 0001
+1110 0000
+1110 0101
+

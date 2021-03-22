@@ -7,14 +7,28 @@ import memory as mem
 import ALU as alu_mod
 import control_unit as cu
 #Helper functions begin
-def readProgramToMemory(instructionList):
+def readProgramToMemory(pyPc, instructionList):
+    '''
+    This functions loads the bootstrap program and then loads a list of instructions to stdIn
+    params: pyPc, InstructionList
+    pyPc (This should be an instance of the CLU object initialized with all its components like the one below)
+    InstructionList (This shoud be a python list including binary instruction in the form of strings)
+    '''
+    bootStrapInstructions = [] #This program is discussed in the manual
+    for c,instruction in enumerate(bootStrapInstructions):
+        pyPc.ram.m[0][c].set_v(instruction)
+    pyPc.stdIn += instructionList[:]
+    while pyPc.ir.m.out() != "00001101": #location 13 is the beginning of the users program
+        stepSingleInstruction(pyPc)
+
+
+def stepSingleInstruction(pyPc):
+    for i in range(7):
+        pyPc.step()
     pass
 
-def stepSingleInstruction():
-    pass
-
-def stepCycle():
-    pass
+def stepCycle(pyPc):
+    pyPc.step()
 #Helper functions end
 
 
