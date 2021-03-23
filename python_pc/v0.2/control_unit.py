@@ -173,6 +173,7 @@ class control_unit:
                 #set one into the alu's second input
                 self.alu.byte_b.set_v(self.bus1.output())
                 #assign MAR to address in IAR
+                print("IAR OUT: ", self.iar.output())
                 self.mar.set_v(self.iar.output())
 
                 #assign alu first input to IAR
@@ -196,6 +197,7 @@ class control_unit:
                 self.ir.s=1
 
                 #read from RAM and input to IR
+                print(self.mar.output())
                 self.ir.set_v(self.ram.read())
 
                 #unset s and e components

@@ -65,7 +65,7 @@ def right_shift (byte):
 
 def inverter (byte):
     outbyte=cp.deepcopy(byte)
-    for bit in outbyte:
+    for bit in outbyte.bits:
         bit.s=1
         bit.set_v(mem.NOT(bit.o))
         bit.s=0
@@ -243,7 +243,7 @@ class ALU:
 
           #if performing a Compare operation output for carry will be 0
           self.carry_out=0
-          return result
+          return "00000000"
         
         #set byte_a and byte_b to zero as nothing would be setting them otherwise
         self.byte_a.set_v('00000000')
@@ -258,5 +258,5 @@ if __name__ == "__main__":
     b2 = mem.mem_byte()
     b2.set_v("00001100")
 
-    result = XORer(b2, b2)
+    result = inverter(b1)
     print(result.output())

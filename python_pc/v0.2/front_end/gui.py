@@ -42,9 +42,9 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
             #Define lists of memory data to be entered into table
             memData = [setBits, enableBits, byteValues]
             for c, i in enumerate(memData):
-                print(c)
                 for c2, i2 in enumerate(i):
                     self.memoryTable.setItem(c2,c, QtWidgets.QTableWidgetItem(i2))
+            # print(byteValues)
 
         #Draw main 4 registers used by Central Logic Unit / Control Section
         def drawRegisters(self):
@@ -55,7 +55,6 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
             #Define lists of register data to be entered into table
             memData = [setBits, enableBits, byteValues]
             for c, i in enumerate(memData):
-                print(c)
                 for c2, i2 in enumerate(i):
                     self.regTable.setItem(c2,c, QtWidgets.QTableWidgetItem(i2))
         
@@ -95,6 +94,9 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
         def loadProgram(self):
             instructionList = self.programText.toPlainText().split('\n')
             if utilFunctions.validateInstructionList(instructionList):
+                self.errorLabel.setText("")    
+                utilFunctions.bootstrap(pythonPc, instructionList)
+                self.draw()
                 print(instructionList)
             else:
                 self.errorLabel.setText("Error that is not valid input.\n Please enter 8 digit line seperated binary numbers only.")

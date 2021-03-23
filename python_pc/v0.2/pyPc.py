@@ -1,36 +1,9 @@
 #made by: Jonathan Parlett
-#Purpose: holds main objects and helper functions for the 8TIAC
-#Helper functions are things that not necessarily part of the 8 bit computer implementation
-#and include helpful functions such as reading a list of instructions into memory
+#Purpose: holds main objects for the 8TIAC
 
 import memory as mem
 import ALU as alu_mod
 import control_unit as cu
-#Helper functions begin
-def readProgramToMemory(pyPc, instructionList):
-    '''
-    This functions loads the bootstrap program and then loads a list of instructions to stdIn
-    params: pyPc, InstructionList
-    pyPc (This should be an instance of the CLU object initialized with all its components like the one below)
-    InstructionList (This shoud be a python list including binary instruction in the form of strings)
-    '''
-    bootStrapInstructions = [] #This program is discussed in the manual
-    for c,instruction in enumerate(bootStrapInstructions):
-        pyPc.ram.m[0][c].set_v(instruction)
-    pyPc.stdIn += instructionList[:]
-    while pyPc.ir.m.out() != "00001101": #location 13 is the beginning of the users program
-        stepSingleInstruction(pyPc)
-
-
-def stepSingleInstruction(pyPc):
-    for i in range(7):
-        pyPc.step()
-    pass
-
-def stepCycle(pyPc):
-    pyPc.step()
-#Helper functions end
-
 
 #build computer
 #CPU Registers
@@ -53,7 +26,7 @@ bus1=cu.bus1(tmp)
 #2GB ram
 ram=mem.RAM256Byte()
 
-#Memory address register decides which location in memory will referenced for reads and writes
+#Memory address register decides which location in memory will be referenced for reads and writes
 mar=ram.mar
 
 #flags register for use with jump if instruction set in step 5 of ALU instruction or by CLF instruction
@@ -68,7 +41,7 @@ iar=mem.register()
 #Arithmetic Logic Unit performs all math operations 
 alu=alu_mod.ALU()
 
-#Control Unit/Control Section interprets instructions given
+#Central Logic Unit/Control Section interprets instructions given
 clu=cu.control_unit(ram,bus1,register_0,register_1,register_2,register_3,acc,tmp,alu, ir, iar, flags_register)
 
 

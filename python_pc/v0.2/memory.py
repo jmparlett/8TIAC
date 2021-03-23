@@ -73,7 +73,7 @@ def decode_4x16(string):
         return 8
 
     #1001
-    elif AND_4x4(a,NOT(b),NOT(c),NOT(d)):
+    elif AND_4x4(a,NOT(b),NOT(c),d):
         return 9
 
     #1010
@@ -210,3 +210,13 @@ class RAM256Byte:
             targetMemRegister.e=0
             return out
             # return self.m[address[0]][address[1]].output()
+
+if __name__ == "__main__":
+    ram=RAM256Byte()
+    ram.e=1
+    ram.s=1
+    ram.mar.s=1
+    ram.mar.set_v("11110000")
+    ram.mar.s=0
+    print(decode_4x16("1001"))
+    # print(ram.read())
