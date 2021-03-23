@@ -173,7 +173,6 @@ class control_unit:
                 #set one into the alu's second input
                 self.alu.byte_b.set_v(self.bus1.output())
                 #assign MAR to address in IAR
-                print("IAR OUT: ", self.iar.output())
                 self.mar.set_v(self.iar.output())
 
                 #assign alu first input to IAR
@@ -197,7 +196,6 @@ class control_unit:
                 self.ir.s=1
 
                 #read from RAM and input to IR
-                print(self.mar.output())
                 self.ir.set_v(self.ram.read())
 
                 #unset s and e components
@@ -226,7 +224,7 @@ class control_unit:
 
                 #begin ALU block
                 if int(instruction[0])==1:
-                    #determine register b by inspecting last two bits of opcode
+                    #determine register b by inspecting last two bits of instruction
                     reg_b=self.determine_reg_b(instruction)
 
                     #set s and e for components
@@ -319,7 +317,9 @@ class control_unit:
                         self.bus1.status=1
                         self.iar.e=1
                         self.acc.s=1
-
+                        self.mar.s=1
+                        #write IAR to MAR
+                        self.mar.set_v(self.iar.output())
                         #read IAR and bus1 into inputs a and b of ALU
                         self.alu.byte_a.set_v(self.iar.output())
                         self.alu.byte_b.set_v(self.bus1.output())
@@ -330,6 +330,7 @@ class control_unit:
                         self.bus1.status=0
                         self.iar.e=0
                         self.acc.s=0
+                        self.mar.s=0
                         
                     #if CLF (clear flags)
                     elif alu_mod.decode_3x8(instruction[1:4])==6:
@@ -364,6 +365,7 @@ class control_unit:
                 if int(instruction[0])==1:
                     #change opcode of alu based on IR
                     self.alu.change_opcode(instruction[1:4])
+                    print("ALU OPCODE:",self.alu.opcode)
 
                     #determine reg_a
                     reg_a=self.determine_reg_a(instruction)
@@ -445,24 +447,23 @@ class control_unit:
 
                     #if JMPR
                     elif alu_mod.decode_3x8(instruction[1:4])==3:
-                        #read from RAM to IAR
+                        #cycle 5 is not used by JMPR
+                        pass
+                        
+                    #if JMP
+                    elif alu_mod.decode_3x8(instruction[1:4])==4:
                         #set s and e
                         self.ram.e=1
                         self.iar.s=1
 
-                        #read from IAR to MAR
+                        #read from RAM to IAR
                         self.iar.set_v(self.ram.read())
 
                         #unset s and e
                         self.ram.e=0
-                        self.iar.s=0
-                    #if JMP
-                    elif alu_mod.decode_3x8(instruction[1:4])==4:
-                        pass
+                        self.iar.s=0 
                     #if JCAEZ (jump if tested flag is present)
                     elif alu_mod.decode_3x8(instruction[1:4])==5:
-                        #write ACC to IAR
-
                         #set s and e
                         self.acc.e=1
                         self.iar.s=1
@@ -484,7 +485,6 @@ class control_unit:
             elif self.current_step==6:
                 #set s and e for components
                 self.ir.e=1
-                print(self.ir.output())
 
                 #read from instruction register
                 instruction=self.ir.output()
@@ -494,7 +494,7 @@ class control_unit:
                 if int(instruction[0])==1:
                     #determine register b by inspecting last two bits of opcode
 
-                    if instruction[1:4]!='111':
+                    if instruction[1:4]!='111': #only execute if we are not doing a comparison as comparison should not over write either register
                         #if reg_b = r0
                         reg_b=self.determine_reg_b(instruction)
 
@@ -534,6 +534,7 @@ class control_unit:
                         self.iar.s=0
                     #if JMPR
                     elif alu_mod.decode_3x8(instruction[1:4])==3:
+                        #cycle 6 is not used by JMPR
                         pass
                     #if JMP
                     elif alu_mod.decode_3x8(instruction[1:4])==4:

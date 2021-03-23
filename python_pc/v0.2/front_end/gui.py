@@ -5,7 +5,7 @@ os.sys.path.append(parent_path)
 
 import sys
 import pyPcGui
-import utilFunctions
+import utilFunctions 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -20,6 +20,8 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
             super().__init__()
             self.setupUi(self)
             self.readProgramToMemoryButton.clicked.connect(self.loadProgram)
+            self.stepCycleButton.clicked.connect(self.stepCycle)
+            self.stepInstructionButton.clicked.connect(self.stepSingleInstruction)
             # self.btnBrowse.clicked.connect(self.browse_folder)
 
         def drawMar(self):
@@ -97,10 +99,16 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
                 self.errorLabel.setText("")    
                 utilFunctions.bootstrap(pythonPc, instructionList)
                 self.draw()
-                print(instructionList)
             else:
                 self.errorLabel.setText("Error that is not valid input.\n Please enter 8 digit line seperated binary numbers only.")
-
+        #button functions to step 8TIAC        
+        def stepSingleInstruction(self):
+            for i in range(7):
+                pythonPc.step()
+            self.draw()
+        def stepCycle(self):
+            pythonPc.step()
+            self.draw()
 def main():
     app = QtWidgets.QApplication(sys.argv)
     window = PyPcGui()

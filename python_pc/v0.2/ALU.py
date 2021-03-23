@@ -36,7 +36,7 @@ def decode_3x8 (string):
     if mem.AND(mem.AND(mem.NOT(a),b),mem.NOT(c)):
         return 2
     #011
-    if mem.AND(mem.AND(a,b),mem.NOT(c)):
+    if mem.AND(mem.NOT(a),mem.AND(b,c)):
         return 3
     #100
     if mem.AND(mem.AND(a,mem.NOT(b)),mem.NOT(c)):
@@ -51,17 +51,27 @@ def decode_3x8 (string):
     if mem.AND(mem.AND(a,b),c):
         return 7
 
-def left_shift (byte):
-    carry=cp.deepcopy(byte[7])
-    mod=cp.deepcopy(byte[0:7])
-    mod.insert(0,carry)
-    return [mod,carry]
-
 def right_shift (byte):
-    carry=cp.deepcopy(byte[0])
-    mod=cp.deepcopy(byte[1:8])
+    '''
+    Takes in a byte object
+    returns a right shifted byte
+    '''
+    carry=cp.deepcopy(byte.bits[7])
+    mod=cp.deepcopy(byte.bits[0:7])
+    mod.insert(0,carry)
+    byte.bits=mod
+    return [byte,carry]
+
+def left_shift (byte):
+    '''
+    Takes in a byte object
+    returns a left shifted byte
+    '''
+    carry=cp.deepcopy(byte.bits[0])
+    mod=cp.deepcopy(byte.bits[1:8])
     mod.append(carry)
-    return [mod,carry]
+    byte.bits=mod
+    return [byte,carry]
 
 def inverter (byte):
     outbyte=cp.deepcopy(byte)
@@ -76,7 +86,7 @@ def ANDer(byte1,byte2):
     outbyte=mem.mem_byte()
     for i in range(8):
         outbyte.bits[i].s=1
-        outbyte.bits[i].set_v(mem.AND(byte1.m.bits[i].o,byte2.m.bits[i].o))
+        outbyte.bits[i].set_v(mem.AND(byte1.bits[i].o,byte2.bits[i].o))
         outbyte.bits[i].s=0
     return outbyte
 
@@ -103,12 +113,19 @@ def bit_adder(a, b, carry=0):
     return [mem.XOR(mem.XOR(a.o, b.o),carry),(mem.OR(mem.AND(mem.XOR(a.o,b.o),carry),mem.AND(a.o, b.o)))]
 
 def byte_ADDer(byte1, byte2, i_carry=0):
-    #add bits in r1 and r2 and put result back in r1
+    '''
+    Adds 2 bytes up to 255 returns a carry in case of overflow
+    byte1: Must be a valid Byte object
+    byte2: Must be a valid Byte object
+    return value is a new byte object
+    '''
+    #add bits in r1 and r2 and return a new byte object
     carry=i_carry
     outbyte=mem.mem_byte()
-    for i in range(8):
+    for i in range(1, 9):
         #copy results of adder func to variable
         result = bit_adder(byte1.bits[-i],byte2.bits[-i],carry)
+        # print("Sum, Carry", result, "Bit 1 ",byte1.bits[-i].o,"Bit 2",byte1.bits[-i].o)
         #set value of bit in r1 to sum
         outbyte.bits[-i].s=1
         outbyte.bits[-i].set_v(result[0])
@@ -169,8 +186,8 @@ class ALU:
             self.carry_out=result[1]
             self.last_result=result[0]
             #if performing an ADD operation outputs for comparison will be 0
-            self.a_larger=0
-            self.equal=0
+            # self.a_larger=0
+            # self.equal=0
             return result[0].output()
         
         #Shift right
@@ -179,8 +196,8 @@ class ALU:
             self.last_result=result
             self.carry_in=self.carry_out=result[1]
             #if performing a Shift operation outputs for comparison will be 0
-            self.a_larger=0
-            self.equal=0
+            # self.a_larger=0
+            # self.equal=0
             return result[0].output()
 
         #Shift left
@@ -189,8 +206,8 @@ class ALU:
             self.last_result=result
             self.carry_in=self.carry_out=result[1]
             #if performing a Shift operation outputs for comparison will be 0
-            self.a_larger=0
-            self.equal=0
+            # self.a_larger=0
+            # self.equal=0
             return result[0].output()
 
         #NOTer
@@ -198,9 +215,9 @@ class ALU:
             result=inverter(self.byte_a)
             self.last_result=result
             #if performing a NOT operation outputs for comparison and carry will be 0
-            self.a_larger=0
-            self.equal=0
-            self.carry_out=0
+            # self.a_larger=0
+            # self.equal=0
+            # self.carry_out=0
             return result.output()
 
         
@@ -219,7 +236,6 @@ class ALU:
             self.a_larger=0
             self.equal=0
             self.carry_out=0
-
             return result.output()
         
         #XORer
@@ -234,16 +250,17 @@ class ALU:
         
         #Compare
         elif self.opcode==7:
-          result=comparator(self.byte_a, self.byte_b)
-          self.is_equal=result[0]
-          self.a_larger=result[1]
-          if result==[0,0]:
-              print('byte b is larger')
-              self.last_result=self.byte_b
+            result=comparator(self.byte_a, self.byte_b)
+            print(result)
+            self.equal=result[0]
+            self.a_larger=result[1]
+            if result==[0,0]:
+                print('byte b is larger')
+                self.last_result=self.byte_b
 
-          #if performing a Compare operation output for carry will be 0
-          self.carry_out=0
-          return "00000000"
+            #if performing a Compare operation output for carry will be 0
+            self.carry_out=0
+            return "00000000"
         
         #set byte_a and byte_b to zero as nothing would be setting them otherwise
         self.byte_a.set_v('00000000')
@@ -253,10 +270,46 @@ class ALU:
         self.zero=is_zero(self.last_result)
 if __name__ == "__main__":
     b1 = mem.mem_byte()
-    b1.set_v("00000100")
+    b1.set_v("01100111")
 
     b2 = mem.mem_byte()
-    b2.set_v("00001100")
+    b2.set_v("00100001")
 
-    result = inverter(b1)
-    print(result.output())
+    b3 = mem.mem_byte()
+    b3.set_v("00000000")
+
+    b4 = mem.mem_byte()
+    b4.set_v("00000000")
+
+    #Test incrementation
+    # for i in range(256):
+    #     b1.set_v(byte_ADDer(b1, b2)[0].output())
+    #     print(int(b1.output(), 2))
+
+    #Test Shifting
+    # for i in range(8):
+    #     b2=left_shift(b2)[0]
+    #     print(b2.output())
+
+    #Test OR'ing
+    # print(ORer(b1,b2).output())
+
+    # #Test AND'ing
+    # print(ANDer(b1,b2).output())
+
+    #Test XOR'ing
+    # print(XORer(b3,b3).output())
+
+    #Test docode3x8
+    # print(decode_3x8('110'))
+
+    #test comparator
+    # print("is equal:",comparator(b3,b4)[0], "a larger:", comparator(b3,b4)[1])
+
+    t = ALU()
+    t.opcode=decode_3x8("111")
+    t.byte_a.set_v(b3.output())
+    t.byte_b.set_v(b4.output())
+    print(t.equal, t.opcode)
+    t.pulse()
+    print(t.equal)
