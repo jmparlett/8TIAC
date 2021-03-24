@@ -47,5 +47,4 @@ def draw(GUI):
     '''calls the GUI's draw method if it is present'''
     if GUI != None:
         GUI.draw()
-        print("Im drawing!")
 
