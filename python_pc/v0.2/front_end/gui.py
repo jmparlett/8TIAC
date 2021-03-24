@@ -22,48 +22,38 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
             self.readProgramToMemoryButton.clicked.connect(self.loadProgram)
             self.stepCycleButton.clicked.connect(self.stepCycle)
             self.stepInstructionButton.clicked.connect(self.stepSingleInstruction)
-            # self.btnBrowse.clicked.connect(self.browse_folder)
+            self.memoryTable.setFont(QFont('Arial', 24))
+            self.regTable.setFont(QFont('Arial', 24))
+            self.setWindowTitle("8TIAC Control Center")
 
         def drawMemInfo(self):
             self.marContents.setText(pythonPc.mar.m.output())
             self.memorySetBit.setText(str(pythonPc.ram.s))
             self.memoryEnableBit.setText(str(pythonPc.ram.e))
             #highlight cell MAR is currently pointing to
-            self.memoryTable.item(int(pythonPc.mar.m.output(), 2), 3).setBackground(QColor(0, 255, 255))
-            #color s and e bits based on value
-            sbit=self.memoryTable.item(int(pythonPc.mar.m.output(), 2), 1)
-            if sbit.text()=='1':
-                sbit.setBackground(QColor(128,255,0))
-            else:
-                sbit.setBackground(QColor(255, 64, 0))
-            ebit=self.memoryTable.item(int(pythonPc.mar.m.output(), 2), 2)
-            if ebit.text()=='1':
-                ebit.setBackground(QColor(128, 255, 0))
-            else:
-                ebit.setBackground(QColor(255, 64, 0))
+            self.memoryTable.item(int(pythonPc.mar.m.output(), 2), 0).setBackground(QColor(0, 255, 255))
+            self.memoryTable.item(int(pythonPc.mar.m.output(), 2), 1).setBackground(QColor(0, 255, 255))
 
         def drawMemoryContents(self):
             #set num of table rows and colums to accomdate 256 bytes of memory and the appropriate labels for each register
-            self.memoryTable.setColumnCount(4)           
+            self.memoryTable.setColumnCount(2)           
             self.memoryTable.setRowCount(256)
 
             #define and set headers
-            headers=['Byte#','Set Bit', 'Enable Bit', 'Value']
+            headers=['Byte#', 'Value']
             self.memoryTable.setHorizontalHeaderLabels(headers)
             self.memoryTable.setVerticalHeaderLabels(['' for i in range(256)])
-
+            #Resize table
+            self.memoryTable.horizontalHeader().setStretchLastSection(True)
             #generate lists for table columns.
             memNums= [str(i) for i in range(256)]
-            setBits= list(chain.from_iterable([[str(register.s) for register in register_row] for register_row in pythonPc.ram.m]))     #column 1
-            enableBits= list(chain.from_iterable([[str(register.e) for register in register_row] for register_row in pythonPc.ram.m]))  #column 2
             byteValues = list(chain.from_iterable([[register.m.output() for register in register_row] for register_row in pythonPc.ram.m])) #column 3
             #Define lists of memory data to be entered into table
-            memData = [memNums,setBits, enableBits, byteValues]
+            memData = [memNums, byteValues]
             for c, i in enumerate(memData):
                 for c2, i2 in enumerate(i):
                     self.memoryTable.setItem(c2,c, QtWidgets.QTableWidgetItem(i2))
-            # print(byteValues)
-
+            
         #Draw main 4 registers used by Central Logic Unit / Control Section
         def drawRegisters(self):
             #generate lists for table columns.
@@ -75,6 +65,8 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
             for c, i in enumerate(memData):
                 for c2, i2 in enumerate(i):
                     self.regTable.setItem(c2,c, QtWidgets.QTableWidgetItem(i2))
+            #Resize table
+            self.regTable.horizontalHeader().setStretchLastSection(True)
         
         #Display ALU attributes
         def drawALU(self):
@@ -114,15 +106,15 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
                 utilFunctions.bootstrap(pythonPc, instructionList)
                 self.draw()
             else:
-                self.errorLabel.setText("Error that is not valid input.\n Please enter 8 digit line seperated binary numbers only.")
+                self.errorLabel.setText("Error that is not valid input. Please enter 8 digit line\n seperated binary numbers only.")
         #button functions to step 8TIAC        
         def stepSingleInstruction(self):
             for i in range(7):
                 pythonPc.step(self)
-            self.draw()
+            # self.draw()
         def stepCycle(self):
             pythonPc.step(self)
-            self.draw()
+            # self.draw()
 def main():
     app = QtWidgets.QApplication(sys.argv)
     window = PyPcGui()

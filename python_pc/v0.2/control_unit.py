@@ -273,6 +273,9 @@ class control_unit:
                         #write from reg_a to MAR
                         self.mar.set_v(reg_a.output())
 
+                        #Draw changes on GUI
+                        utilFunctions.draw(GUI)
+
                         #unset s and e
                         reg_a.e=0
                         self.mar.s=0
@@ -294,6 +297,9 @@ class control_unit:
                         self.alu.byte_b.set_v(self.bus1.output())
                         self.acc.set_v(self.alu.pulse())
 
+                        #Draw changes on GUI
+                        utilFunctions.draw(GUI)
+
                         #unset s and e
                         self.iar.e=0
                         self.mar.s=0
@@ -311,6 +317,9 @@ class control_unit:
                         #write from reg_b to IAR
                         self.iar.set_v(reg_b.output())
 
+                        #Draw changes on GUI
+                        utilFunctions.draw(GUI)
+
                         #unset s and e
                         reg_b.e=0
                         self.iar.s=0
@@ -325,6 +334,9 @@ class control_unit:
 
                         #read from IAR to MAR
                         self.mar.set_v(self.iar.output())
+
+                        #Draw changes on GUI
+                        utilFunctions.draw(GUI)
 
                         #unset s and e
                         self.iar.e=0
@@ -346,6 +358,9 @@ class control_unit:
                         self.alu.byte_b.set_v(self.bus1.output())
                         #read ALU out into ACC
                         self.acc.set_v(self.alu.pulse())
+
+                        #Draw changes on GUI
+                        utilFunctions.draw(GUI)
                         
                         #unset s and e/disable bus1
                         self.bus1.status=0
@@ -364,6 +379,9 @@ class control_unit:
                         self.alu.byte_b.set_v(self.bus1.output())
                         self.alu.pulse()
                         self.flags_reg.set_v(f'{str(self.alu.carry_out)}{str(self.alu.a_larger)}{str(self.alu.equal)}{self.alu.zero}0000')
+
+                        #Draw changes on GUI
+                        utilFunctions.draw(GUI)
 
                         #unset s and e
                         self.flags_reg.s=0
@@ -399,9 +417,6 @@ class control_unit:
                     #bus1 outputs to ALU byte_b
                     self.alu.byte_b.set_v(self.bus1.output())
 
-                    #unset s and e for components
-                    reg_a.e=0
-
                     #set s and e for components
                     self.acc.s=1
 
@@ -409,8 +424,13 @@ class control_unit:
                     self.acc.set_v(self.alu.pulse())
                     #set ALU opcode back to default ADD
                     self.alu.change_opcode('000')
+
+                    #Draw changes on GUI
+                    utilFunctions.draw(GUI)
+
                     #unset s and e for components
                     self.acc.s=0
+                    reg_a.e=0
 
                     #write to flags register
                     self.flags_reg.s=1
@@ -431,7 +451,10 @@ class control_unit:
 
                         #write from RAM to reg_b
                         reg_b.set_v(self.ram.read())
-
+                        
+                        #Draw changes on GUI
+                        utilFunctions.draw(GUI)
+                        
                         #unset s and e
                         reg_b.s=0
                         self.ram.e=0
@@ -447,6 +470,9 @@ class control_unit:
                         #write from reg_b to RAM
                         self.ram.write(reg_b.output())
 
+                        #Draw changes on GUI
+                        utilFunctions.draw(GUI)
+
                         #unset s and e
                         reg_b.e=0
                         self.ram.s=0
@@ -461,6 +487,9 @@ class control_unit:
 
                         #read from RAM to reg_b
                         reg_b.set_v(self.ram.read())
+
+                        #Draw changes on GUI
+                        utilFunctions.draw(GUI)
 
                         #unset s and e
                         reg_b.s=0
@@ -480,6 +509,9 @@ class control_unit:
                         #read from RAM to IAR
                         self.iar.set_v(self.ram.read())
 
+                        #Draw changes on GUI
+                        utilFunctions.draw(GUI)
+
                         #unset s and e
                         self.ram.e=0
                         self.iar.s=0 
@@ -491,6 +523,9 @@ class control_unit:
 
                         #write ACC to IAR
                         self.iar.set_v(self.acc.output())
+
+                        #Draw changes on GUI
+                        utilFunctions.draw(GUI)
 
                         #unset s and e
                         self.acc.e=0
@@ -526,6 +561,9 @@ class control_unit:
                         #read from ACC input to reg_b
                         reg_b.set_v(self.acc.output())
 
+                        #Draw changes on GUI
+                        utilFunctions.draw(GUI)
+
                         #unset s and e for components
                         self.acc.e=0
                         reg_b.s=0
@@ -550,6 +588,9 @@ class control_unit:
                         #read from ACC to IAR
                         self.iar.set_v(self.acc.output())
 
+                        #Draw changes on GUI
+                        utilFunctions.draw(GUI)
+
                         #unset s and e
                         self.acc.e=0
                         self.iar.s=0
@@ -571,6 +612,9 @@ class control_unit:
                             #write
                             self.iar.set_v(self.ram.read())
 
+                            #Draw changes on GUI
+                            utilFunctions.draw(GUI)
+
                             #unset s and e
                             self.ram.e=0
                             self.iar.s=0
@@ -579,9 +623,7 @@ class control_unit:
                     elif alu_mod.decode_3x8(instruction[1:4])==6:
                         pass
                 #end non-ALU block
-
                     #Unset s and e for IR
                     self.ir.e=0
-
 
 
