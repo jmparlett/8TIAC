@@ -197,7 +197,7 @@ class RAM256Byte:
             targetMemRegister = self.m[address[0]][address[1]]
             targetMemRegister.s=1
             targetMemRegister.set_v(info)
-            targetMemRegister.s=1
+            targetMemRegister.s=0
             # self.m[addy[0]][addy[1]].set_v(info)
 
     #Read from location specified by MAR output will be the string of bits at that location '10100011'

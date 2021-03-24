@@ -1,5 +1,6 @@
 import memory as mem
 import ALU as alu_mod
+import utilFunctions
 
 class bus1:
     def __init__(self, tmp):
@@ -142,7 +143,16 @@ class control_unit:
             return mem.AND_4x4(C, A, E, Z)
 
 
-    def step(self):
+    def step(self, GUI=None):
+        '''
+        This method steps the control section through a single processor cycle. Stepping seven times is equivelant to
+        stepping through a single instruction.
+        This method contains one optional parameter
+        GUI: a pyqt window object that can be called from step to draw various elements of the 8TIAC
+        '''
+
+        #Draw changes on GUI
+        utilFunctions.draw(GUI)
         #Monitoring block start
         # self.ir.e=1
         # print(f'IR contains {self.ir.output()}','\n',f'current step is {self.current_step}','\n')
@@ -181,6 +191,9 @@ class control_unit:
                 #assign accumulator to ALU return value
                 self.acc.set_v(self.alu.pulse())
 
+                #Draw changes on GUI
+                utilFunctions.draw(GUI)
+
                 #unset e and s values for components
                 self.mar.s=0
                 self.acc.s=0
@@ -194,9 +207,11 @@ class control_unit:
                 #set s and e for components
                 self.ram.e=1
                 self.ir.s=1
-
                 #read from RAM and input to IR
                 self.ir.set_v(self.ram.read())
+
+                #Draw changes on GUI
+                utilFunctions.draw(GUI)
 
                 #unset s and e components
                 self.ram.e=0
@@ -209,6 +224,9 @@ class control_unit:
 
                 #read from ACC and input to IAR
                 self.iar.set_v(self.acc.output())
+
+                #Draw changes on GUI
+                utilFunctions.draw(GUI)
 
                 #unset s and e for components
                 self.acc.e=0
@@ -233,6 +251,9 @@ class control_unit:
 
                     #read from reg b input to tmp
                     self.tmp.set_v(reg_b.output())
+
+                    #Draw changes on GUI
+                    utilFunctions.draw(GUI)
 
                     #unset s and e for components
                     reg_b.e=0

@@ -24,25 +24,41 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
             self.stepInstructionButton.clicked.connect(self.stepSingleInstruction)
             # self.btnBrowse.clicked.connect(self.browse_folder)
 
-        def drawMar(self):
+        def drawMemInfo(self):
             self.marContents.setText(pythonPc.mar.m.output())
-            self.marContents.setAlignment(Qt.AlignCenter)
+            self.memorySetBit.setText(str(pythonPc.ram.s))
+            self.memoryEnableBit.setText(str(pythonPc.ram.e))
+            #highlight cell MAR is currently pointing to
+            self.memoryTable.item(int(pythonPc.mar.m.output(), 2), 3).setBackground(QColor(0, 255, 255))
+            #color s and e bits based on value
+            sbit=self.memoryTable.item(int(pythonPc.mar.m.output(), 2), 1)
+            if sbit.text()=='1':
+                sbit.setBackground(QColor(128,255,0))
+            else:
+                sbit.setBackground(QColor(255, 64, 0))
+            ebit=self.memoryTable.item(int(pythonPc.mar.m.output(), 2), 2)
+            if ebit.text()=='1':
+                ebit.setBackground(QColor(128, 255, 0))
+            else:
+                ebit.setBackground(QColor(255, 64, 0))
 
-        def drawMemory(self):
+        def drawMemoryContents(self):
             #set num of table rows and colums to accomdate 256 bytes of memory and the appropriate labels for each register
-            self.memoryTable.setColumnCount(3)           
+            self.memoryTable.setColumnCount(4)           
             self.memoryTable.setRowCount(256)
 
             #define and set headers
-            headers=['Set Bit', 'Enable Bit', 'Value']
+            headers=['Byte#','Set Bit', 'Enable Bit', 'Value']
             self.memoryTable.setHorizontalHeaderLabels(headers)
+            self.memoryTable.setVerticalHeaderLabels(['' for i in range(256)])
 
             #generate lists for table columns.
+            memNums= [str(i) for i in range(256)]
             setBits= list(chain.from_iterable([[str(register.s) for register in register_row] for register_row in pythonPc.ram.m]))     #column 1
             enableBits= list(chain.from_iterable([[str(register.e) for register in register_row] for register_row in pythonPc.ram.m]))  #column 2
             byteValues = list(chain.from_iterable([[register.m.output() for register in register_row] for register_row in pythonPc.ram.m])) #column 3
             #Define lists of memory data to be entered into table
-            memData = [setBits, enableBits, byteValues]
+            memData = [memNums,setBits, enableBits, byteValues]
             for c, i in enumerate(memData):
                 for c2, i2 in enumerate(i):
                     self.memoryTable.setItem(c2,c, QtWidgets.QTableWidgetItem(i2))
@@ -86,12 +102,10 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
 
         def draw(self):
             self.drawRegisters()
-            self.drawMar()
-            self.drawMemory()
+            self.drawMemoryContents()
+            self.drawMemInfo()
             self.drawALU()
             self.drawCLU()
-            #highlight cell MAR is currently pointing to
-            self.memoryTable.item(int(pythonPc.mar.m.output(), 2), 2).setBackground(QColor(100,100,150))
 
         def loadProgram(self):
             instructionList = self.programText.toPlainText().split('\n')
@@ -104,10 +118,10 @@ class PyPcGui(QtWidgets.QMainWindow, pyPcGui.Ui_MainWindow):
         #button functions to step 8TIAC        
         def stepSingleInstruction(self):
             for i in range(7):
-                pythonPc.step()
+                pythonPc.step(self)
             self.draw()
         def stepCycle(self):
-            pythonPc.step()
+            pythonPc.step(self)
             self.draw()
 def main():
     app = QtWidgets.QApplication(sys.argv)
