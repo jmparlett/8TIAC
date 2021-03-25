@@ -1,13 +1,13 @@
-Design gui visual
-1. Display 4 main registers contents
-2. Display MAr contents
-3. Display ALU contents
-4. IR and IAR contents
-5. Display RAM contents (scrolloable)
+     //Design gui visual
+     //1. Display 4 main registers contents
+     //2. Display MAr contents
+DONE!//3. Display ALU contents
+     //4. IR and IAR contents
+     //5. Display RAM contents (scrolloable)
 
 Design GUI function
     1. allow input into memory
-    2. allow stepping of CLU
+    2. allow stepping of CLU DONE!
         a. 7 cycles at once (one full instruction)
         b. step through all 7 cycles of instruction
         c. full auto

@@ -78,7 +78,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>Read Program Into Memory</string>
+        <string>Bootstrap Current Program</string>
        </property>
       </widget>
       <widget class="QLabel" name="errorLabel">
@@ -284,7 +284,7 @@
     <item row="5" column="2">
      <widget class="QLabel" name="programTextBoxLable">
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Enter Your Program in Binary Here&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Type your program in valid binary instructions below.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </item>

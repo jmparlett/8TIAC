@@ -38,8 +38,13 @@ def bootstrap(pyPc, instructionList):
     pyPc.stdIn += instructionList[:]
     pyPc.r1.m.set_v("00000001")
     pyPc.r0.m.set_v("00001100")
-    # while pyPc.ir.m.output() != "00001110": #location 14 is the beginning of the users program
-    #     stepSingleInstruction(pyPc)
+    while not(pyPc.iar.m.output() == '00001100' and pyPc.current_step==1):
+        pyPc.step()
+    # #step two more time to reach first cycle of first instruction
+    # pyPc.step()
+    # pyPc.step()
+    # # for i in range(85):
+    #     pyPc.step()
 
 
 
