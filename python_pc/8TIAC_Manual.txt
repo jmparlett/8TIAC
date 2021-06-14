@@ -40,7 +40,7 @@ _____________________________________________Standard input (stdIn)_____________
 _____________________________________________Memory________________________________________________________________
 The 8TIAC has 256 bytes of memory. Memory is 0 indexed ranging from [0-255]
 The first 12 addresses [0-11] in memory are used by the bootstrap program because of this you should use
-locations [11-255] for your programs. You may rewrite the first 12 adress after the bootstrap if you so choose.
+locations [12-255] for your programs. You may rewrite the first 12 addresses after the bootstrap if you so choose.
 
 ___________________________________________Bootstrap program___________________________________________________
 This program is used internaly and is executed by the "Read Program to Memory Button"
