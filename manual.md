@@ -89,31 +89,20 @@ if loop is finished zero registers, clear flags, and jump to beginning of progra
 
 
 BinaryCode.  These Instructions will consume locations [0-11] in memory.
-
+```
 11111110
-
 01010010
-
 00001000
-
 00010011
-
 10000100
-
 11101111
-
 00110010
-
 11100000
-
 11100101
-
 01100000
-
 01000000
-
 00000111
-
+```
 
 Add two numbers program
 1. DATA 00,R0
@@ -125,20 +114,15 @@ Add two numbers program
 7. Location to store result
 8. ST R0,R1
 
+Binary Code
 
+```
 00100000
-
 00010000
-
 00100001
-
 01000000
-
 10000001
-
 00100000
-
 00010100
-
 00010001
-
+```
