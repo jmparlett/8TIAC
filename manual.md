@@ -4,35 +4,39 @@
 all Instructions are 8 bit codes. Generally the first 4 bits denote the instruction
 and the last 4 denote the target registers
 
-The first bit denotes an ALU or Non ALU instruction
-    MSB = 1 denotes ALU:
-        next 3 bits are the opcodes
-        1000 RARB = ADD RA,RB  (Add the Contents of RA and RB and output to RB)
-        1001 RARB = SHL RA,RB  (Shift RA left and write output to RB)
-        1010 RARB = SHR RA,RB  (Shift RA right and write output to RB)
-        1011 RARB = NOT RA,RB  (Write the Inverse byte of RA to RB)
-        1100 RARB = AND RA,RB  (AND RA and RB and write output to RB)
-        1101 RARB = OR  RA,RB  (OR RA and RB and write output to RB)
-        1110 RARB = XOR RA,RB  (XOR RA and RB and put answer in RB)
-        1111 RARB = CMP RA,RB  (Compare RA and RB)
-    MSB = 0 denotes non ALU:
-        0000 RARB = LD RA,RB      (Load reg B from address in reg A)
-        0001 RARB = ST RA,RB      (Store contents of register B to address in Register A)
-        0010 00RB = DATA 00,RB    (Load the contents of the next memory byte into RB)
-        0011 00RB = JMPR 00,RB    (jump to mem address in RB)
-        0100 0000 = JMP 00,00     (Jump to mem address in next byte of memory)
-        0101 CAEZ = JCAEZ Addr    (jump if tested flag is on)
-             1000 = JC            (Jump if carry)
-             0100 = JA            (Jump if A larger)
-             0010 = JE            (Jump if Equal)
-             0001 = JZ            (Jump if Zero)
-        0110 0000 = CLF           (Clear flags)
+### The first bit denotes an ALU or Non ALU instruction
+MSB = 1 denotes ALU:
+MSB = 0 denotes non ALU:
+next 3 bits are the opcodes
 
-Last 4 bits denote register A and B:
-    00 = Reg0
-    01 = Reg1
-    10 = Reg2
-    11 = Reg3
+### Alu Instructions
+1000 RARB = ADD RA,RB  (Add the Contents of RA and RB and output to RB)
+1001 RARB = SHL RA,RB  (Shift RA left and write output to RB)
+1010 RARB = SHR RA,RB  (Shift RA right and write output to RB)
+1011 RARB = NOT RA,RB  (Write the Inverse byte of RA to RB)
+1100 RARB = AND RA,RB  (AND RA and RB and write output to RB)
+1101 RARB = OR  RA,RB  (OR RA and RB and write output to RB)
+1110 RARB = XOR RA,RB  (XOR RA and RB and put answer in RB)
+1111 RARB = CMP RA,RB  (Compare RA and RB)
+
+### Non Alu Instructions
+0000 RARB = LD RA,RB      (Load reg B from address in reg A)
+0001 RARB = ST RA,RB      (Store contents of register B to address in Register A)
+0010 00RB = DATA 00,RB    (Load the contents of the next memory byte into RB)
+0011 00RB = JMPR 00,RB    (jump to mem address in RB)
+0100 0000 = JMP 00,00     (Jump to mem address in next byte of memory)
+0101 CAEZ = JCAEZ Addr    (jump if tested flag is on)
+1000 = JC            (Jump if carry)
+0100 = JA            (Jump if A larger)
+0010 = JE            (Jump if Equal)
+0001 = JZ            (Jump if Zero)
+0110 0000 = CLF           (Clear flags)
+
+Last 4 bits denote register A and B for non alu instructions
+00 = Reg0
+01 = Reg1
+10 = Reg2
+11 = Reg3
 
 ## Standard input (stdIn)
     stdIn is a list in the CLU. The first item in this list is removed and input to R3, if ,R3 is empty (all zeros).
