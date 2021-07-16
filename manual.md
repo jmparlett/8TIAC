@@ -1,4 +1,4 @@
-#8TIAC Manual
+# 8TIAC Manual
 
 ## Instructions / assembly language
 all Instructions are 8 bit codes. Generally the first 4 bits denote the instruction
@@ -42,15 +42,22 @@ next 3 bits are the opcodes
 0101 CAEZ = JCAEZ Addr    (jump if tested flag is on)
 
 1000 = JC            (Jump if carry)
+
 0100 = JA            (Jump if A larger)
+
 0010 = JE            (Jump if Equal)
+
 0001 = JZ            (Jump if Zero)
+
 0110 0000 = CLF           (Clear flags)
 
 ### Last 4 bits denote register A and B for non alu instructions
 00 = Reg0
+
 01 = Reg1
+
 10 = Reg2
+
 11 = Reg3
 
 ## Standard input (stdIn)
