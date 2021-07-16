@@ -28,11 +28,17 @@ next 3 bits are the opcodes
 
 ### Non Alu Instructions
 0000 RARB = LD RA,RB      (Load reg B from address in reg A)
+
 0001 RARB = ST RA,RB      (Store contents of register B to address in Register A)
+
 0010 00RB = DATA 00,RB    (Load the contents of the next memory byte into RB)
+
 0011 00RB = JMPR 00,RB    (jump to mem address in RB)
+
 0100 0000 = JMP 00,00     (Jump to mem address in next byte of memory)
+
 0101 CAEZ = JCAEZ Addr    (jump if tested flag is on)
+
 1000 = JC            (Jump if carry)
 0100 = JA            (Jump if A larger)
 0010 = JE            (Jump if Equal)
