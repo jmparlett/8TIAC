@@ -11,6 +11,7 @@ next 3 bits are the opcodes
 
 ### Alu Instructions
 1000 RARB = ADD RA,RB  (Add the Contents of RA and RB and output to RB)
+
 1001 RARB = SHL RA,RB  (Shift RA left and write output to RB)
 1010 RARB = SHR RA,RB  (Shift RA right and write output to RB)
 1011 RARB = NOT RA,RB  (Write the Inverse byte of RA to RB)
