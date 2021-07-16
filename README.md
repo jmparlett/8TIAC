@@ -1,7 +1,8 @@
 # 8TIAC
 The 8TIAC is a simulated 8bit computer built in python. Written while reading "How do it Know" by J.Clark Scott
 
-<br><br><br><br>
+<br>
+
 ## Instructions / assembly language
 all Instructions are 8 bit codes. Generally the first 4 bits denote the instruction
 and the last 4 denote the target registers
@@ -11,7 +12,18 @@ MSB = 1 denotes ALU:
 
 MSB = 0 denotes non ALU:
 
-next 3 bits are the opcodes
+
+
+### Last 4 bits denote register A and B
+00 = Reg0
+
+01 = Reg1
+
+10 = Reg2
+
+11 = Reg3
+
+### Bits 2,3 and 4 denote opcodes
 
 ### Alu Instructions
 1000 RARB = ADD RA,RB  (Add the Contents of RA and RB and output to RB)
@@ -53,14 +65,6 @@ next 3 bits are the opcodes
 
 0110 0000 = CLF           (Clear flags)
 
-### Last 4 bits denote register A and B for non alu instructions
-00 = Reg0
-
-01 = Reg1
-
-10 = Reg2
-
-11 = Reg3
 
 ## Standard input (stdIn)
 stdIn is a list in the CLU. The first item in this list is removed and input to R3, if ,R3 is empty (all zeros).
