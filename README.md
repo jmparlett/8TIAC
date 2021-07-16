@@ -1,5 +1,5 @@
 # 8TIAC
-The 8TIAC is a simulated computer built in python. Written while reading "How do it Know" by J.Clark Scott
+The 8TIAC is a simulated 8bit computer built in python. Written while reading "How do it Know" by J.Clark Scott
 
 <br><br><br><br>
 ## Instructions / assembly language
