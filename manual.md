@@ -13,11 +13,17 @@ next 3 bits are the opcodes
 1000 RARB = ADD RA,RB  (Add the Contents of RA and RB and output to RB)
 
 1001 RARB = SHL RA,RB  (Shift RA left and write output to RB)
+
 1010 RARB = SHR RA,RB  (Shift RA right and write output to RB)
+
 1011 RARB = NOT RA,RB  (Write the Inverse byte of RA to RB)
+
 1100 RARB = AND RA,RB  (AND RA and RB and write output to RB)
+
 1101 RARB = OR  RA,RB  (OR RA and RB and write output to RB)
+
 1110 RARB = XOR RA,RB  (XOR RA and RB and put answer in RB)
+
 1111 RARB = CMP RA,RB  (Compare RA and RB)
 
 ### Non Alu Instructions
