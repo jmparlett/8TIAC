@@ -52,9 +52,10 @@ Last 4 bits denote register A and B for non alu instructions
 11 = Reg3
 
 ## Standard input (stdIn)
-    stdIn is a list in the CLU. The first item in this list is removed and input to R3, if ,R3 is empty (all zeros).
-    This allows you to handle input by reading from R3. Once input has been used you may zero R3 using XOR.
-    This will allow you to handle the next input.
+stdIn is a list in the CLU. The first item in this list is removed and input to R3, if ,R3 is empty (all zeros).
+This allows you to handle input by reading from R3. Once input has been used you may zero R3 using XOR.
+This will allow you to handle the next input.
+
 ## Memory
 The 8TIAC has 256 bytes of memory. Memory is 0 indexed ranging from [0-255]
 The first 12 addresses [0-11] in memory are used by the bootstrap program because of this you should use
@@ -88,17 +89,29 @@ if loop is finished zero registers, clear flags, and jump to beginning of progra
 
 
 BinaryCode.  These Instructions will consume locations [0-11] in memory.
+
 11111110
+
 01010010
+
 00001000
+
 00010011
+
 10000100
+
 11101111
+
 00110010
+
 11100000
+
 11100101
+
 01100000
+
 01000000
+
 00000111
 
 
@@ -114,11 +127,18 @@ Add two numbers program
 
 
 00100000
+
 00010000
+
 00100001
+
 01000000
+
 10000001
+
 00100000
+
 00010100
+
 00010001
 
