@@ -1,7 +1,9 @@
 # 8TIAC
 The 8TIAC is a simulated 8bit computer built in python. Written while reading "How do it Know" by J.Clark Scott
 
-Can be used by running gui.py under the front end folder
+![8tiac](https://user-images.githubusercontent.com/48170846/136678993-74e39910-35b5-4f9f-8626-7077c7ca926f.png)
+
+It Can be used by running gui.py under the front end folder
 
 <br>
 
